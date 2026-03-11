@@ -38,8 +38,9 @@ namespace Ecomm_Project_101.DataAccess.Repository
                         query = query.Include(includeProp);
                     }
                 }
-                return query.FirstOrDefault();
+                
             }
+            return query.FirstOrDefault();
         }
 
         public T Get(int id)
@@ -55,17 +56,23 @@ namespace Ecomm_Project_101.DataAccess.Repository
                 query = query.Where(filter);
             if (IncludeProperties != null)
             {
-                foreach (var includeProp in IncludeProperties.Split(new[]{ ',' },
+                foreach (var includeProp in IncludeProperties.Split(new[] { ',' },
                     StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(includeProp);
                 }
+            }
                 if (orderBy != null)
                   return orderBy(query).ToList();
                 return query.ToList();
-            }
+            
      
 
+        }
+
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>> orderBy = null, string IncludeProperties = null)
+        {
+            throw new NotImplementedException();
         }
 
         public void Remove(int id)

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Ecomm_Project_101.Models;
 
 namespace Ecomm_Project_101.DataAccess.Repository.IRepository
 {
-    internal interface ICoverType
+    public interface ICoverTypeRepository:IRepository<CoverType>
     {
     }
 }
