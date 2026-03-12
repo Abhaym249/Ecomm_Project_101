@@ -10,7 +10,11 @@ namespace Ecomm_Project_101.DataAccess.Repository.IRepository
         void Add(T entity);//save
         void Update(T entity);//update
         T Get(int id);
-        IEnumerable<T> GetAll(Expression<Func<T,bool>>filter =null,Func<IQueryable<T>> orderBy = null,String IncludeProperties = null);
+        // In IRepository.cs - ensure defaults are set
+        IEnumerable<T> GetAll(
+            Expression<Func<T, bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string IncludeProperties = null);
         T FirstOrDefault(Expression<Func<T, bool>> filter = null, String IncludeProperties = null);
         void Remove(int id);
         void Remove(T entity);  

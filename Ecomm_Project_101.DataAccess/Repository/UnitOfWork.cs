@@ -4,7 +4,7 @@ using System.Text;
 using Ecomm_Project_101.DataAccess.Data;
 using Ecomm_Project_101.DataAccess.Repository.IRepository;
 
-namespace Ecomm_Project_101.DataAccess.Repository
+namespace Ecomm_Project_101.DataAccess.IRepository
 {
     public class UnitOfWork:IUnitOfWork
     {
