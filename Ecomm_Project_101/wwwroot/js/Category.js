@@ -37,5 +37,35 @@ function loadDataTable() {
 }
 
 function Delete(url) {
-    alert(url);
+
+    swal({
+        title: "Want to Delete data?",
+        text: "Delete information !!!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    }).then((willDelete) => {
+
+        if (willDelete) {
+
+            $.ajax({
+                url: url,
+                type: "DELETE",
+                success: function (data) {
+
+                    if (data.success) {
+                        toastr.success(data.message);
+                        datatable.ajax.reload();
+                    }
+                    else {
+                        toastr.error(data.message);
+                    }
+
+                }
+            });
+
+        }
+
+    });
+
 }
