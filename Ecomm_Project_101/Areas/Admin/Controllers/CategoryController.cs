@@ -61,7 +61,7 @@ namespace Ecomm_Project_101.Areas.Admin.Controllers
             _unitOfWork.Category.Remove(CategoryInDb);
             _unitOfWork.Save();
             return Json(new { success = true, message = " Data Deleted Successfully !!!!" });
-            return RedirectToAction(nameof(Index));
+            
         }
     #endregion
     }

@@ -1,6 +1,8 @@
 ﻿using Ecomm_Project_101.DataAccess.Repository.IRepository;
 using Ecomm_Project_101.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Ecomm_Project_101.Areas.Admin.Controllers
 {
@@ -22,7 +24,24 @@ namespace Ecomm_Project_101.Areas.Admin.Controllers
             //edit
              coverType = _unitOfWork.CoverType.Get(id.GetValueOrDefault());
             if(coverType == null) return NotFound();
-            return View();
+            return View(coverType);
+        }
+        [HttpPost]
+        public IActionResult Upsert(CoverType coverType) 
+        { 
+            if(coverType == null) return BadRequest();
+            if(!ModelState.IsValid) return View(coverType);
+            if (coverType.Id == 0)
+            {
+                _unitOfWork.CoverType.Add(coverType);
+            }
+            else
+            {
+
+                _unitOfWork.CoverType.Update(coverType);
+            }
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
         }
         #region Apis
         [HttpGet]
@@ -30,7 +49,17 @@ namespace Ecomm_Project_101.Areas.Admin.Controllers
         {
             return Json(new { data = _unitOfWork.CoverType.GetAll() });
         }
-
+        [HttpDelete]
+        public IActionResult Delete(int id) 
+        {
+            var CoverTypeInDb = _unitOfWork.CoverType.Get(id);
+            if (CoverTypeInDb == null)
+            { return Json(new { success = false, message = "Unable To Delete Data !!! " }); }
+            _unitOfWork.CoverType.Remove(CoverTypeInDb);
+            _unitOfWork.Save();
+            return Json(new { success = true, message = "Data Deleted Succesfully !!!" });
+           
+        }
         #endregion
     }
 }
