@@ -8,6 +8,7 @@ namespace Ecomm_Project_101.DataAccess.Repository.IRepository
     {
         ICategoryRepository Category { get; }
         ICoverTypeRepository CoverType { get; }
+        IProductRepository Product { get; }
         void Save();//save method 
     }
 }
