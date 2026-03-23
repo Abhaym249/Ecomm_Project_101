@@ -28,7 +28,7 @@
 
             <div class="form-group mb-2">
                 <label asp-for="Product.Description"></label>
-                <input asp-for="Product.Description" class="form-control" />
+                <textarea asp-for="Product.Description" class="form-control"></textarea>
                 <span asp-validation-for="Product.Description" class="text-danger"></span>
             </div>
 
@@ -67,11 +67,69 @@
                 <input asp-for="Product.Price100" class="form-control" />
                 <span asp-validation-for="Product.Price100" class="text-danger"></span>
             </div>
+            <div class="form-group p-2 m-2">
+                <label asp-for="Product.ImageUrl"></label>
+                <input asp-for="Product.ImageUrl"  type="file" id="UploadImage"
+                    class="form-control" />
+                <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group p-2 m-2">
+                <label asp-for="Product.CategoryId"></label>
+                <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-control" >
+                <option value="">Select value</option>
+                </select>
+                <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group p-2 m-2">
+                <label asp-for="Product.CoverTypeId"></label>
+                <select asp-for="Product.CoverTypeId" asp-items="@Model.CoverTypeList" class="form-control" >
+                <option value="">Select value</option>
+                </select>
+                <span asp-validation-for="Product.CoverTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group p-2 m-2">
+                    @if (Model.Product.Id != 0)
+                    {
+                        <partial name="_EditAndBackToListButtons" />
+                    }
+                    else
+                    {
+                        <div class="row col-10">
+                            <div class="col-4 ">
+                                <button type="submit" onclick="return ValData()" class="btn btn-info form-control">Save</button>
+                            </div>
+                       </div>
+                       <div class="col-4">
+                           <a asp-action="Index" class="btn btn-success form-control">
+                               Back To List
+                           </a>
+                       </div>
+                    }
+                </div>
 
-            <button type="submit" class="btn btn-primary form-control">
+            @* <button type="submit" class="btn btn-primary form-control">
                 @saveUpdate
-            </button>
+            </button> *@
 
         </form>
     </div>
 </div>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"></partial>
+      
+        <script src="https://cdn.tiny.cloud/1/a6t77woi7q9asc5hp58tewin8p7tmvz87ttz7cpsgq7je930/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+         
+         function ValData(){
+        if (document.getElementsById("UploadImage").value==""){
+            swal("Error","Please select Product Image !!!",'error');
+            return false;}
+            return true;}
+   
+    //**** */
+    tinymce.init({
+        selector:"textarea",
+        plugins:"lists",
+        menubar:"file Edit Format"})
+    </script>
+    }

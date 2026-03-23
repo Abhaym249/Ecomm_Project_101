@@ -10,9 +10,11 @@ namespace Ecomm_Project_101.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ProductController(IUnitOfWork unitOfWork)
+        private readonly  IWebHostEnvironment _webHostEnvironment;
+        public ProductController(IUnitOfWork unitOfWork,IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -46,8 +48,17 @@ namespace Ecomm_Project_101.Areas.Admin.Controllers
                 return NotFound();
             }
             return View(productVM);
+      
         }
+        [HttpPost]
+        //public IActionResult Upsert(ProductVM productVM) 
+        //{
+        //    if (ModelState.IsValid)
+        //    {
 
+        //    }
+        //}
+       
            
         
         #region Apis
