@@ -1,6 +1,6 @@
 
 using Ecomm_Project_101.DataAccess.Data;
-using Ecomm_Project_101.DataAccess.IRepository;
+using Ecomm_Project_101.DataAccess.Repository;
 using Ecomm_Project_101.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

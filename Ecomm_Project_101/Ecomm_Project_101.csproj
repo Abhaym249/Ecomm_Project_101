@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <!--<Nullable>enable</Nullable>-->
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-Ecomm_Project_101-7d2d3c38-87b6-4008-af97-6b66fa4b301b</UserSecretsId>
   </PropertyGroup>
@@ -24,6 +24,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Customer\Models\" />
+    <Folder Include="wwwroot\images\products\" />
   </ItemGroup>
 
 </Project>
