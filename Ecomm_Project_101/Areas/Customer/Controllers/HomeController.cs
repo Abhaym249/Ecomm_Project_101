@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Ecomm_Project_101.DataAccess.Repository.IRepository;
 using Ecomm_Project_101.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,17 @@ namespace Ecomm_Project_101.Areas.Customer.Controllers
     [Area("Customer")]
     public class HomeController : Controller
     {
+        private readonly IUnitOfWork _unitfOfWork;
+        public HomeController(IUnitOfWork unitOfWork)
+        {
+            _unitfOfWork = unitOfWork;
+        }
         public IActionResult Index()
+        {
+            var productList =_unitfOfWork.Product.GetAll();
+            return View(productList);
+        }
+        public IActionResult Details(int id)
         {
             return View();
         }

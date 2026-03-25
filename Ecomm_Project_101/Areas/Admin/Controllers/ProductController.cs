@@ -10,8 +10,8 @@ namespace Ecomm_Project_101.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly  IWebHostEnvironment _webHostEnvironment;
-        public ProductController(IUnitOfWork unitOfWork,IWebHostEnvironment webHostEnvironment)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
@@ -26,7 +26,8 @@ namespace Ecomm_Project_101.Areas.Admin.Controllers
             {
                 Product = new Product(),
 
-                CategoryList = _unitOfWork.Category.GetAll().Select(cl => new SelectListItem() {
+                CategoryList = _unitOfWork.Category.GetAll().Select(cl => new SelectListItem()
+                {
                     Text = cl.Name,
                     Value = cl.Id.ToString()
 
@@ -42,13 +43,13 @@ namespace Ecomm_Project_101.Areas.Admin.Controllers
             {
                 return View(productVM);
             }
-            productVM.Product=_unitOfWork.Product.Get(id.GetValueOrDefault());
-            if (productVM.Product == null) 
-            { 
+            productVM.Product = _unitOfWork.Product.Get(id.GetValueOrDefault());
+            if (productVM.Product == null)
+            {
                 return NotFound();
             }
             return View(productVM);
-      
+
         }
         [HttpPost]
         public IActionResult Upsert(ProductVM productVM)
@@ -143,7 +144,33 @@ namespace Ecomm_Project_101.Areas.Admin.Controllers
         {
             return Json(new { data = _unitOfWork.Product.GetAll() });
         }
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var productInDb = _unitOfWork.Product.Get(id);
+            if (productInDb == null)
+            {
+                return Json(new { success = false, message = "Unable to delete data !!!" });
+            }
+                //Image delete
+                var WebRootPath = _webHostEnvironment.WebRootPath;
+                var ImagePath = Path.Combine(WebRootPath, productInDb.ImageUrl).Trim('\\');
+            
+                if (System.IO.File.Exists(ImagePath))
+                {
+                    System.IO.File.Delete(ImagePath);
+                }
+                //database se delete
+                _unitOfWork.Product.Remove(productInDb);
+                _unitOfWork.Save();
+                return Json(new
+                {
+                    success = true,
+                    message = "data deleted successfully!!!"
+                });
+            
 
+        }
         #endregion
     }
 }

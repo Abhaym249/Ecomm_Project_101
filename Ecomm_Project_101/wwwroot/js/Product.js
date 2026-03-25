@@ -32,5 +32,28 @@ function loadDataTable() {
 
 }
 function Delete(url) {
-    alert(url);
+    //alert(url);
+    swal({
+        title: "Want to delete data?",
+        icon: "warning",
+        text: "Delete Information",
+        buttons: true,
+        dangerMode: true
+    }).then((willdelete) => {
+        if (willdelete) {
+            $.ajax({
+                url: url,
+                type: "DELETE",
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                        dataTable.ajax.reload();//if deleted
+                    }
+                    else {
+                        toastr.error(data.message);//not deleted
+                    }
+                }
+            })
+        }
+    })
 }

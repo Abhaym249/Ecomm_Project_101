@@ -42,7 +42,6 @@ namespace Ecomm_Project_101.DataAccess.Repository
         {
             return dbSet.Find(id);
         }
-
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, Func<IQueryable<T> ,IOrderedQueryable<T>> orderBy = null, string IncludeProperties = null)
         {
             IQueryable<T> query =dbSet;
@@ -79,6 +78,7 @@ namespace Ecomm_Project_101.DataAccess.Repository
 
         public void Update(T entity)
         {
+            _context.ChangeTracker.Clear();
             dbSet.Update(entity);
         }
     }
