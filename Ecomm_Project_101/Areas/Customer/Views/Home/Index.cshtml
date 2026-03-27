@@ -1,28 +1,112 @@
 ﻿@model IEnumerable<Ecomm_Project_101.Models.Product>
+
+@* search bar *@
+<div class="row mb-3">
+    <div class="col-md-3">
+        <select id="searchType" class="form-control">
+            <option value="all">All</option>
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search here..." />
+    </div>
+
+    <div class="col-md-3">
+        <button class="btn btn-primary w-100" onclick="searchProducts()">
+            <i class="fas fa-search"></i> Search
+        </button>
+    </div>
+</div>
+
+@* product cards *@
 <div class="row">
-	@foreach(var Product in Model)
-	{
-        <div class="col-lg-3 col-md-6">
+    @foreach (var Product in Model)
+    {
+        <div class="col-lg-3 col-md-6 product-card"
+             data-title="@Product.Title.ToLower()"
+             data-author="@Product.Author.ToLower()"
+             
+            >
+
             <div class="row p-2">
-                <div class="col-12  p-1" style="border:1px solid #008cba; border-radius: 5px;">
+                <div class="col-12 p-1" style="border:1px solid #008cba; border-radius: 5px;">
+                    
                     <div class="card" style="border:0px;">
                         <img src="@Product.ImageUrl" class="card-img-top rounded" />
+
                         <div class="pl-1">
-                            <p class="card-title h5"><b style="color:#2c3e50">@Product.Title</b></p>
-                            <p class="card-title text-primary">by <b>@Product.Author</b></p>
+                            <p class="card-title h5">
+                                <b style="color:#2c3e50">@Product.Title</b>
+                            </p>
+                            <p class="card-title text-primary">
+                                by <b>@Product.Author</b>
+                            </p>
                         </div>
+
                         <div style="padding-left:5px;">
-                            <p>List Price: <strike><b class="">$@Product.ListPrice.ToString("0.00")</b></strike></p>
+                            <p>
+                                List Price:
+                                <strike>
+                                    <b>$@Product.ListPrice.ToString("0.00")</b>
+                                </strike>
+                            </p>
                         </div>
+
                         <div style="padding-left:5px;">
-                            <p style="color:maroon">As low as: <b class="">$@Product.Price100.ToString("0.00")</b></p>
+                            <p style="color:maroon">
+                                As low as:
+                                <b>$@Product.Price100.ToString("0.00")</b>
+                            </p>
                         </div>
                     </div>
+
                     <div>
-                        <a asp-action="Details" class="btn btn-primary form-control" asp-route-id="@Product.Id">Details</a>
+                        <a asp-action="Details"
+                               class="btn btn-primary form-control"
+                               asp-route-id="@Product.Id">
+                            Details
+                        </a>
                     </div>
+
                 </div>
             </div>
         </div>
     }
 </div>
+
+@* search code  *@
+<script>
+    function searchProducts() {
+        let type = document.getElementById("searchType").value;
+        let input = document.getElementById("searchInput").value.toLowerCase();
+
+        let cards = document.querySelectorAll(".product-card");
+
+        cards.forEach(card => {
+            let title = card.getAttribute("data-title");
+            let author = card.getAttribute("data-author");
+
+            let show = false;
+
+            if (type === "all") {
+                show = title.includes(input) || author.includes(input);
+            }
+            else if (type === "title") {
+                show = title.includes(input);
+            }
+            else if (type === "author") {
+                show = author.includes(input);
+            }
+
+            card.style.display = show ? "block" : "none";
+        });
+    }
+
+   // // live search code
+   //  document.getElementById("searchInput")
+   //      .addEventListener("keyup", searchProducts);
+
+</script>

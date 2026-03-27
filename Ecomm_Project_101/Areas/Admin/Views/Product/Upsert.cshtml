@@ -94,16 +94,7 @@
                     }
                     else
                     {
-                        <div class="row col-10">
-                            <div class="col-4 ">
-                                <button type="submit" onclick="return ValData()" class="btn btn-info form-control">Save</button>
-                            </div>
-                       </div>
-                       <div class="col-4">
-                           <a asp-action="Index" class="btn btn-success form-control">
-                               Back To List
-                           </a>
-                       </div>
+                        <partial name="_CreateAndBackToListButtons" />                
                     }
                 </div>
 
