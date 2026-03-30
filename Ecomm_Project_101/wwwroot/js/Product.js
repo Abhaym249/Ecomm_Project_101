@@ -7,6 +7,8 @@ function loadDataTable() {
         "ajax": {
             "url": "/Admin/Product/GetAll"
         },
+        "pageLength": 2, // default selected value
+        "lengthMenu": [[2, 4, 6, 8], [2, 4, 6, 8]],
         "columns": [
             { "data": "title", "width": "15%" },
             { "data": "description", "width": "20%" },

@@ -9,7 +9,8 @@ function loadDataTable() {
     datatable = $('#tblData').DataTable({
         "ajax": {
             "url": "/Admin/Company/GetAll"
-        },
+        }, "pageLength": 2, // default selected value
+        "lengthMenu": [[2, 4, 6, 8], [2, 4, 6, 8]],
         "columns": [
             { "data": "name", "width": "70%" },
             { "data": "streetAddress" },

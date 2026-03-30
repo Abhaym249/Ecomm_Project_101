@@ -10,27 +10,31 @@ function loadDataTable() {
         "ajax": {
             "url": "/Admin/Category/GetAll"
         },
+        "pageLength": 2, // default selected value
+        "lengthMenu": [[2, 4, 6, 8], [2, 4, 6, 8]],
         "columns": [
-            { "data": "name", "width": "70%" },
             {
                 "data": "id",
                 "render": function (data) {
-                    return `
-                    <div class="text-center">
-
-                        <a href="/Admin/Category/Upsert/${data}"
-                        class="btn btn-info">
+                    return `<a href="/Admin/Category/Upsert/${data}" class="btn btn-info ">
                         <i class="fas fa-edit"></i>
-                        </a>
-
-                        <a class="btn btn-danger"
-                        onclick="Delete('/Admin/Category/Delete/${data}')">
-                        <i class="fas fa-trash-alt"></i>
-                        </a>
-
-                    </div>`;
+                    </a>`;
                 },
-                "width": "30%"
+                "width": "10%"
+            },
+            {
+                "data": "name",
+                "width": "70%"
+            },
+            {
+                "data": "id",
+                "render": function (data) {
+                    return `<a onClick=Delete('/Admin/Category/Delete/${data}') 
+                        class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </a>`;
+                },
+                "width": "10%"
             }
         ]
     });

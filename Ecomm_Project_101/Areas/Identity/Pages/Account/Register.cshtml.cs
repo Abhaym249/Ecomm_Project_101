@@ -4,12 +4,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Ecomm_Project_101.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -97,7 +99,22 @@ namespace Ecomm_Project_101.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            // apna code
+            [Required]
+            public string Name { get; set; }
+            [Display(Name = "Street Addresss")]
+            public string StreetAddress { get; set; }
+            public string City { get; set; }
+            public string State { get; set; }
+            [Display(Name = "Postal Code")]
+            public string PostalCode { get; set; }
+            [Display(Name = "Phone Number")]
+            public string PhoneNumber { get; set; }
+            public int? CompanyId { get; set; }
+            public string Role { get; set; }
+
         }
+
 
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -112,7 +129,21 @@ namespace Ecomm_Project_101.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                //var user = CreateUser();
+                var user = new ApplicationUser()
+                {
+                    Name = Input.Name,
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    PhoneNumber = Input.PhoneNumber,
+                    StreetAddress = Input.StreetAddress,
+                    City = Input.City,
+                    State = Input.State,
+                    PostalCode = Input.PostalCode,
+                    CompanyId = Input.CompanyId,
+                    Role = Input.Role,
+                };
+
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

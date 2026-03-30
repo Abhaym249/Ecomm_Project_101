@@ -10,6 +10,8 @@ function loadDataTable() {
             {
                 "url": "/Admin/CoverType/GetAll"
             },
+            "pageLength": 2, // default selected value
+            "lengthMenu": [[2, 4, 6, 8], [2, 4, 6, 8]],
             "columns": [{ "data": "name", "width": "70%" },
                 {
                     data: "id", "render": function (data) {

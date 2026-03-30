@@ -18,12 +18,14 @@ namespace Ecomm_Project_101.DataAccess.Repository
             CoverType= new CoverTypeRepository(context);
             Product = new ProductRepository(context);
             Company = new CompanyRepository(context);
+            ApplicationUsers = new ApplicationUserRepository(context);
         }
         public ICategoryRepository Category { private set; get; }
 
         public ICoverTypeRepository CoverType { private set; get; }
         public IProductRepository Product { private set; get; }
         public ICompanyRepository Company { private set; get; }
+        public IApplicationUserRepository ApplicationUsers { private set; get; }
         public void Save()
         {
             _context.SaveChanges();
