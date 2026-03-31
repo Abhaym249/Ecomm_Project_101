@@ -13,6 +13,7 @@ namespace Ecomm_Project_101.Areas.Customer.Controllers
         {
             _unitfOfWork = unitOfWork;
         }
+
         public IActionResult Index()
         {
             var productList =_unitfOfWork.Product.GetAll();
