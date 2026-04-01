@@ -14,10 +14,23 @@ namespace Ecomm_Project_101.Areas.Customer.Controllers
             _unitfOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            var productList =_unitfOfWork.Product.GetAll();
-            return View(productList);
+            int pageSize = 4;
+
+            var products = _unitfOfWork.Product.GetAll();
+
+            var totalProducts = products.Count();
+
+            var pagedProducts = products
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalProducts / pageSize);
+
+            return View(pagedProducts);
         }
         public IActionResult Details(int id)
         {

@@ -1,4 +1,5 @@
 ﻿@page
+@using Ecomm_project_101.Utility
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -57,7 +58,24 @@
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            @if(User.IsInRole(SD.Role_Admin))
+                {
+                <div class="form-floating mb-3">
+                    <select asp-for="Input.Role" class="form-control" asp-items="@Model.Input.RolesList">
+						<option value="">Select a role</option>
+                    </select>
+                    <label asp-for="Input.Role">Role</label>
+                    <span asp-validation-for="Input.Role" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <select asp-for="Input.CompanyId" class="form-control" asp-items="@Model.Input.CompanyList">
+                        <option value="">Select Company</option>
+                    </select>
+                    <label asp-for="Input.CompanyId">Company</label>
+                    <span asp-validation-for="Input.CompanyId" class="text-danger"></span>
+                </div>
+                }
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>
     <div class="col-md-6 col-md-offset-2">

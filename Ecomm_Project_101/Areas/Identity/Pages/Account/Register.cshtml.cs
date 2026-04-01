@@ -12,6 +12,7 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using Ecomm_project_101.Utility;
+using Ecomm_Project_101.DataAccess.Repository.IRepository;
 using Ecomm_Project_101.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -19,6 +20,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
@@ -33,6 +35,7 @@ namespace Ecomm_Project_101.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUnitOfWork _unitOfWork;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -40,7 +43,8 @@ namespace Ecomm_Project_101.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
+            IUnitOfWork unitOfWork
             )
         {
             _userManager = userManager;
@@ -50,6 +54,7 @@ namespace Ecomm_Project_101.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -117,6 +122,10 @@ namespace Ecomm_Project_101.Areas.Identity.Pages.Account
             public string PhoneNumber { get; set; }
             public int? CompanyId { get; set; }
             public string Role { get; set; }
+            //Add company and roles
+            public  IEnumerable<SelectListItem>CompanyList { get; set; }
+
+            public IEnumerable<SelectListItem> RolesList { get; set; }
 
         }
 
@@ -124,6 +133,19 @@ namespace Ecomm_Project_101.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            Input = new InputModel()
+            {
+                CompanyList = _unitOfWork.Company.GetAll().Select(cl => new SelectListItem()
+                {
+                    Text = cl.Name,
+                    Value = cl.Id.ToString()
+                }),
+                RolesList = _roleManager.Roles.Where(r =>r.Name!=SD.Role_Individual).Select(r=>r.Name).Select(rl => new SelectListItem()
+                {
+                    Text = rl,
+                    Value = rl
+                })
+            };
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -175,8 +197,21 @@ namespace Ecomm_Project_101.Areas.Identity.Pages.Account
                         await _roleManager.CreateAsync(new IdentityRole(SD.Role_Company));
                     }
                     //add admin role to the first user who register
-                    await _userManager.AddToRoleAsync(user, SD.Role_Admin);
-
+                    //await _userManager.AddToRoleAsync(user, SD.Role_Admin);
+                    if(Input.Role == null && Input.CompanyId ==null)
+                    {
+                        await _userManager.AddToRoleAsync(user, SD.Role_Individual);
+                    }
+                    else
+                    {
+                        if (Input.CompanyId > 0)
+                        {
+                            await _userManager.AddToRoleAsync(user, SD.Role_Company);
+                        }
+                        else { 
+                            await _userManager.AddToRoleAsync(user,Input.Role);
+                        }
+                    }
 
 
                     //var userId = await _userManager.GetUserIdAsync(user);
