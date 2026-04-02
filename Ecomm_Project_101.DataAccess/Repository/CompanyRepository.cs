@@ -9,8 +9,8 @@ namespace Ecomm_Project_101.DataAccess.Repository
 {
     public class CompanyRepository : Repository<Company>, ICompanyRepository
     {
-        private readonly ApplicationDbContext _context;
-        public CompanyRepository(ApplicationDbContext context): base(context) 
+        private readonly IApplicationDbContext _context;
+        public CompanyRepository(IApplicationDbContext context): base(context) 
         {
             _context = context;
         }

@@ -8,8 +8,8 @@ namespace Ecomm_Project_101.DataAccess.Repository
 {
     public class ApplicationUserRepository:Repository<ApplicationUserRepository>,IApplicationUserRepository
     {
-        private readonly ApplicationDbContext _context;
-        public ApplicationUserRepository(ApplicationDbContext context):base(context) 
+        private readonly IApplicationDbContext _context;
+        public ApplicationUserRepository(IApplicationDbContext context):base(context) 
         {
             _context = context; 
         }

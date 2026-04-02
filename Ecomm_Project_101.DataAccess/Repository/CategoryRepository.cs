@@ -10,8 +10,8 @@ namespace Ecomm_Project_101.DataAccess.IRepository
 {
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
-        private readonly ApplicationDbContext _context;
-        public CategoryRepository(ApplicationDbContext context) : base(context)
+        private readonly IApplicationDbContext _context;
+        public CategoryRepository(IApplicationDbContext context) : base(context)
         {
             _context = context;
         }
