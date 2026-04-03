@@ -6,7 +6,8 @@ function loadDataTable() {
     datatable = $("#tblData").DataTable({
         "ajax": {
             "url":"/Admin/User/GetAll"
-        },
+        }, "pageLength": 2, // default selected value
+        "lengthMenu": [[2, 4, 6, 8], [2, 4, 6, 8]],
         "columns": [
             { "data": "name", "width": "15%" },
             { "data": "email", "width": "15%" },
@@ -14,7 +15,7 @@ function loadDataTable() {
             { "data": "company.name", "width": "15%" },
             { "data": "role", "width": "15%" },
             {
-                "data": { id: "id", "lockoutEnd": "Lockout End" },
+                "data": { id: "id", "LockoutEnd": "LockoutEnd" },
                 "render": function (data) {
                     var today = new Date().getTime();
                     var lockout = new Date(data.lockoutEnd).getTime();
@@ -41,5 +42,21 @@ function loadDataTable() {
     })
 }
 function lockUnlock(id) {
-    alert(id)
+    // alert(id)
+    $.ajax({
+        url: "/Admin/User/LockUnlock",
+        type: "Post",
+        data: JSON.stringify(id),
+        contentType: "application/JSON",
+        success: function (data) {
+            if (data.success) {
+                toastr.success(data.message);
+                datatable.ajax.reload();
+            }
+            else {
+                toastr.error(data.message);
+                datatable.ajax.reload();
+            }
+        }
+    })
 };

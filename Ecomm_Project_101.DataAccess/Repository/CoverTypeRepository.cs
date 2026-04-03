@@ -11,8 +11,8 @@ namespace Ecomm_Project_101.DataAccess.IRepository
 {
     public class CoverTypeRepository : Repository<CoverType>, ICoverTypeRepository
     {
-        private readonly IApplicationDbContext _context;
-        public CoverTypeRepository(IApplicationDbContext context) : base(context)
+        private readonly ApplicationDbContext _context;
+        public CoverTypeRepository(ApplicationDbContext context) : base(context)
         {
             _context=context;
         }

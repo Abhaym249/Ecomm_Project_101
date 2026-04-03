@@ -1,12 +1,14 @@
 ﻿using Ecomm_Project_101.DataAccess.Repository.IRepository;
 using Ecomm_Project_101.Models;
 using Ecomm_Project_101.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecomm_Project_101.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

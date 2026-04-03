@@ -10,9 +10,9 @@ namespace Ecomm_Project_101.DataAccess.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly IApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
         internal DbSet<T> dbSet;
-        public Repository(IApplicationDbContext context)
+        public Repository(ApplicationDbContext context)
         {
             _context = context;
             dbSet = context.Set<T>();

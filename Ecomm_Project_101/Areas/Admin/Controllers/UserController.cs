@@ -2,6 +2,7 @@
 using Ecomm_Project_101.DataAccess.Data;
 using Ecomm_Project_101.DataAccess.Repository.IRepository;
 using Ecomm_Project_101.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,12 +10,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Ecomm_Project_101.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public UserController(IUnitOfWork unitOfWork, IApplicationDbContext context)
+        public UserController(IUnitOfWork unitOfWork, ApplicationDbContext context)
         {
             _context = context;
             _unitOfWork = unitOfWork;
@@ -60,7 +62,33 @@ namespace Ecomm_Project_101.Areas.Admin.Controllers
 
             return Json(new { data = userList });
         }
-
+        [HttpPost]
+        public IActionResult LockUnlock([FromBody] string id)
+        {
+            bool isLocked = false;
+            var UserInDb = _unitOfWork.ApplicationUsers.FirstOrDefault(u => u.Id == id);
+            if (UserInDb == null)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Something went wrong while lock Unlock user !!!"
+                });
+               
+            }
+            if (UserInDb != null && UserInDb.LockoutEnd > DateTime.Now)
+            {
+                UserInDb.LockoutEnd = DateTime.Now;
+                isLocked = false;
+            }
+            else
+            {
+                UserInDb.LockoutEnd = DateTime.Now.AddYears(100);
+                isLocked = true;
+            }
+            _context.SaveChanges();
+            return Json(new { success = true, message = isLocked == true ? "User successfully locked " : "USer Successfully Unlocked" });
+        }
         #endregion
     }
 }

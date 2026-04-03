@@ -5,7 +5,7 @@ using Ecomm_Project_101.Models;
 
 namespace Ecomm_Project_101.DataAccess.Repository.IRepository
 {
-    public interface IApplicationUserRepository:IRepository<ApplicationUserRepository>
+    public interface IApplicationUserRepository:IRepository<ApplicationUser>
     {
     }
 }

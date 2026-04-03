@@ -1,5 +1,6 @@
 ﻿using Ecomm_Project_101.DataAccess.Repository.IRepository;
 using Ecomm_Project_101.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace Ecomm_Project_101.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class CoverTypeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

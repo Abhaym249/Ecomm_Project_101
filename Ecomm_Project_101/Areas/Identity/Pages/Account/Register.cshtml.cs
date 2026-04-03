@@ -232,8 +232,15 @@ namespace Ecomm_Project_101.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        if (Input.Role == null && Input.CompanyId == null)
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "User", new {Area="Admin"});
+                        }
                     }
                 }
                 foreach (var error in result.Errors)

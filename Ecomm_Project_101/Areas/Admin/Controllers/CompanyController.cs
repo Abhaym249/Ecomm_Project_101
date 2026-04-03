@@ -1,11 +1,13 @@
 ﻿using Ecomm_Project_101.DataAccess.Repository;
 using Ecomm_Project_101.DataAccess.Repository.IRepository;
 using Ecomm_Project_101.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecomm_Project_101.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class CompanyController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

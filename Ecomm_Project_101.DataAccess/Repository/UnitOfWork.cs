@@ -10,8 +10,8 @@ namespace Ecomm_Project_101.DataAccess.Repository
 {
     public class UnitOfWork:IUnitOfWork
     {
-        private readonly IApplicationDbContext _context;
-        public UnitOfWork(IApplicationDbContext context)
+        private readonly ApplicationDbContext _context;
+        public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
             Category = new CategoryRepository(context);

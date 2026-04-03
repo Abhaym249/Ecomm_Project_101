@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ecomm_Project_101.DataAccess.Migrations
 {
-    [DbContext(typeof(IApplicationDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20260309172607_AddCategoryCoverTypeMethods")]
     partial class AddCategoryCoverTypeMethods
     {
