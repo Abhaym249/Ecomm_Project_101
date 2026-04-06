@@ -23,7 +23,7 @@ function loadDataTable() {
                         //user locked
                         return `
                         <div class ="text-center">
-                        <a class="btn btn-danger" onclick="lockUnlock('${data.id}')">Unlock
+                        <a class="btn btn-info" onclick="lockUnlock('${data.id}')">Unlock
                         </a>
                         </div>
                         `

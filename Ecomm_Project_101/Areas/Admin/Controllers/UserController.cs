@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Ecomm_Project_101.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = SD.Role_Admin)]
     public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

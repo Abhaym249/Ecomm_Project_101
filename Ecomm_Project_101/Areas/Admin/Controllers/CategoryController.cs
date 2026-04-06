@@ -1,4 +1,5 @@
-﻿using Ecomm_Project_101.DataAccess.Repository.IRepository;
+﻿using Ecomm_project_101.Utility;
+using Ecomm_Project_101.DataAccess.Repository.IRepository;
 using Ecomm_Project_101.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ecomm_Project_101.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles =SD.Role_Admin+","+SD.Role_Employee)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

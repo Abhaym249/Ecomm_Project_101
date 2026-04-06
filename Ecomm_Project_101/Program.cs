@@ -31,20 +31,21 @@ builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = $"/Identity/Account/login";
-    options.AccessDeniedPath = "/Identity/Account/AccesDenied";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
     options.LoginPath = $"/Identity/Account/Logout";
 });
-builder.Services.AddAuthentication().AddFacebook(
-(options =>
-{
-    options.AppId = "";
-    options.AppSecret = "";
-});
-builder.Services.AddAuthentication().AddGoogle(options =>
-{
-    options.ClientId = "";
-    options.ClientSecret = "";
-});
+//builder.Services.AddAuthentication()
+    //.AddFacebook(options =>
+    //{
+    //    options.AppId = "";
+    //    options.AppSecret = "";
+    //})
+    //.AddGoogle(options =>
+    //{
+    //    options.ClientId = "";
+    //    options.ClientSecret = "";
+    //});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
