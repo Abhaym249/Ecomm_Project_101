@@ -38,10 +38,16 @@ namespace Ecomm_Project_101.Areas.Admin.Controllers
 
             foreach (var user in userList)
             {
-                var roleId = userRoleList.FirstOrDefault(u => u.UserId == user.Id)?.RoleId;
-                user.Role = roleList.FirstOrDefault(r => r.Id == roleId)?.Name;
+                var roleId = userRoleList.FirstOrDefault(u => u.UserId == user.Id).RoleId;
+                user.Role = roleList.FirstOrDefault(r => r.Id == roleId).Name;
 
-                // FIXED: was if(CompanyId == null) wrapping if(CompanyId != null)
+                if (user.CompanyId == null)
+                {
+                    user.Company = new Company()
+                    {
+                        Name = ""
+                    };
+                }
                 if (user.CompanyId != null)
                 {
                     user.Company = new Company()
@@ -49,12 +55,7 @@ namespace Ecomm_Project_101.Areas.Admin.Controllers
                         Name = _unitOfWork.Company.Get(Convert.ToInt32(user.CompanyId)).Name
                     };
                 }
-                else
-                {
-                    user.Company = new Company() { Name = "" };
-                }
             }
-
             // remove admin role user
             var adminUser = userList.FirstOrDefault(u => u.Role == SD.Role_Admin);
             if (adminUser != null)

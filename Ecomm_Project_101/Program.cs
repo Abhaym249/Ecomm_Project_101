@@ -6,7 +6,8 @@ using Ecomm_Project_101.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Ecomm_Project_101.Models; 
+using Ecomm_Project_101.Models;
+using Microsoft.CodeAnalysis.Options;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +28,23 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddDefaultTokenProviders().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
-
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = $"/Identity/Account/login";
+    options.AccessDeniedPath = "/Identity/Account/AccesDenied";
+    options.LoginPath = $"/Identity/Account/Logout";
+});
+builder.Services.AddAuthentication().AddFacebook(
+(options =>
+{
+    options.AppId = "";
+    options.AppSecret = "";
+});
+builder.Services.AddAuthentication().AddGoogle(options =>
+{
+    options.ClientId = "";
+    options.ClientSecret = "";
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
